@@ -54,7 +54,7 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
 
     ch = logging.StreanHandler()
-    ch.setLevel(logging.INFO)
+    #ch.setLevel(logging.INFO)
     formatter = RedactingFormatter(PII_FIELDS)
     ch.setFormatter(formatter)
     logger.addHandler(ch)
