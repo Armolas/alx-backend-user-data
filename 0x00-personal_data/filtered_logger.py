@@ -2,7 +2,6 @@
 '''filter logger'''
 import logging
 import mysql.connector
-from mysql.connector import connection
 import os
 import re
 from typing import List
@@ -61,7 +60,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> connection.MySQLConnection:
+def get_db() -> mysql.connector.connection.MySQLConnection:
     '''returns a cursor to a database'''
     user = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
     password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
