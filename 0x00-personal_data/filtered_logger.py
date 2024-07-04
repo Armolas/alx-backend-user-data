@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 '''filter logger'''
 import logging
+import mysql.connector
+from mysql.connector import connection
+import os
 import re
 from typing import List
 
@@ -56,3 +59,18 @@ def get_logger() -> logging.Logger:
     ch.setFormatter(formatter)
     logger.addHandler(ch)
     return logger
+
+
+def get_db() -> connection.MySQLConnection:
+    '''returns a cursor to a database'''
+    user = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+    db = os.getenv('PERSONAL_DATA_DB_NAME')
+
+    return mysql.connector.connect(
+            user=user,
+            password=password,
+            host=host,
+            database=db
+            )
