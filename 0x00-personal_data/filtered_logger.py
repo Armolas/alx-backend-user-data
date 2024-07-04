@@ -74,3 +74,35 @@ def get_db() -> connection.MySQLConnection:
             host=host,
             database=db
             )
+
+
+def main():
+    '''Main function'''
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute('SELECT * FROM users;')
+    users = []
+    for row in cursor:
+        users.append(f"name={row[0]}; email={row[1]}; phone={row[2]}; \
+ssn={row[3]}; password={row[4]}; ip={row[5]}; \
+last_login={row[6]}; user_agent={row[7]};")
+    cursor.close()
+    db.close()
+    for message in users:
+        log_record = logging.LogRecord(
+                "my_logger",
+                logging.INFO,
+                None,
+                None,
+                message,
+                None,
+                None
+                )
+        formatter = RedactingFormatter(
+                fields=("email", "ssn", "password", "name", "phone")
+                )
+        print(formatter.format(log_record))
+
+
+if __name__ == '__main__':
+    main()
