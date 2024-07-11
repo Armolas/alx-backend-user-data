@@ -24,6 +24,12 @@ elif auth == 'basic_auth':
 elif auth == 'session_auth':
     from api.v1.auth.session_auth import SessionAuth
     auth = SessionAuth()
+elif auth == 'session_exp_auth':
+    from api.v1.auth.session_exp_auth import SessionExpAuth
+    auth = SessionExpAuth()
+elif auth == 'session_db_auth':
+    from api.v1.auth.session_db_auth import SessionDBAuth
+    auth = SessionDBAuth()
 
 
 @app.before_request
@@ -37,7 +43,7 @@ def before_request_func():
             '/api/v1/unauthorized/',
             '/api/v1/forbidden/',
             '/api/v1/auth_session/login/',
-            '/api/v1/auth_session/logout'
+            '/api/v1/auth_session/logout/'
             ]
     if auth.require_auth(request.path, excl) is False:
         return None
