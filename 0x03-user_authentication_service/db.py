@@ -55,7 +55,7 @@ class DB:
         """
         try:
             user = self._session.query(User).filter(User.id == user_id).first()
-            keys = User.__dict__.keys()
+            keys = user.__dict__.keys()
             for key, value in kwargs.items():
                 if key not in keys:
                     raise ValueError
@@ -63,4 +63,4 @@ class DB:
             session.commit()
             return None
         except Exception as e:
-            raise e
+            raise ValueError
