@@ -54,13 +54,13 @@ class DB:
         """ Updates a user with the values in the keyword args
         """
         try:
-            user = self._session.query(User).filter(User.id == user_id).first()
-            keys = user.__dict__.keys()
+            user = self._session.query(User).filter_by(id=user_id).first()
+            keys = ['hashed_password', 'email', 'session_id', 'reset_token']
             for key, value in kwargs.items():
                 if key not in keys:
                     raise ValueError
                 setattr(user, key, value)
-            session.commit()
+            self._session.commit()
             return None
         except Exception as e:
             raise ValueError
