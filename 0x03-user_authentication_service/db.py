@@ -50,7 +50,7 @@ class DB:
         except InvalidRequestError as e:
             raise e
 
-    def update_user(self, user_id: int, **kwargs) -> None:
+    def update_user(self, user_id: int, **kwargs: dict) -> None:
         """ Updates a user with the values in the keyword args
         """
         try:
@@ -62,5 +62,5 @@ class DB:
                 setattr(user, key, value)
             session.commit()
             return None
-        except Exception:
-            raise ValueError
+        except Exception as e:
+            raise e
