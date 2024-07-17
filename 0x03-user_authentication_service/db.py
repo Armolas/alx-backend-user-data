@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from user import Base, User
 
@@ -42,10 +43,13 @@ class DB:
         """ finds a user by keywords
         """
         session = self._session
-        results = session.query(User).filter_by(**kwargs)
-        if len(list(results)) == 0:
-            raise NoResultFound
-        return results[0]
+        try:
+            results = session.query(User).filter_by(**kwargs)
+            if len(list(results)) == 0:
+                raise NoResultFound
+            return results[0]
+        except InvalidRequestError as e:
+            raise e
 
     def update_user(self, user_id: int, **kwargs: dict):
         """ Updates a user with the values in the keyword args
