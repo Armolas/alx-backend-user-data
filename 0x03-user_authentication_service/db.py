@@ -44,12 +44,12 @@ class DB:
         """
         session = self._session
         try:
-            results = session.query(User).filter_by(**kwargs)
-            if len(list(results)) == 0:
+            user = session.query(User).filter_by(**kwargs).first()
+            if not user:
                 raise NoResultFound
-            return results[0]
+            return user
         except InvalidRequestError as e:
-            raise e
+            raise InvalidRequestError
 
     def update_user(self, user_id: int, **kwargs: dict):
         """ Updates a user with the values in the keyword args
