@@ -38,7 +38,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs: dict) -> User:
         """ finds a user by keywords
         """
         session = self._session
@@ -47,7 +47,7 @@ class DB:
             raise NoResultFound
         return results[0]
 
-    def update_user(self, user_id: int, **kwargs):
+    def update_user(self, user_id: int, **kwargs: dict):
         """ Updates a user with the values in the keyword args
         """
         session = self._session
