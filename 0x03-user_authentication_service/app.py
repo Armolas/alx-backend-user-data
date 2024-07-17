@@ -2,7 +2,7 @@
 """ The flask app module
 """
 from auth import Auth
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 
 
 app = Flask(__name__)
@@ -48,6 +48,19 @@ def login():
         return resp
     else:
         abort(401)
+
+
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
+def logout():
+    """ Logs a user out
+    """
+    session_id = request.cookies.get('session_id')
+    user = AUTH.get_user_from_session_id(session_id)
+    if user:
+        AUTH.destroy_session(user.id)
+        return redirect(url_for('login'))
+    else:
+        abort(403)
 
 
 if __name__ == "__main__":
