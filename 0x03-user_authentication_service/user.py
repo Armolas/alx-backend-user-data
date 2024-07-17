@@ -6,6 +6,8 @@ from sqlalchemy import Column, Integer, String
 
 
 Base = declarative_base()
+
+
 class User(Base):
     """ The User Class
     """
@@ -14,4 +16,4 @@ class User(Base):
     email = Column(String(250), nullable=False)
     hashed_password = Column(String(250), nullable=False)
     session_id = Column(String(250))
-    reset_token =Column(String(250))
+    reset_token = Column(String(250))
