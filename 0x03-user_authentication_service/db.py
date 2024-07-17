@@ -59,4 +59,3 @@ class DB:
             session.commit()
         except Exception:
             raise ValueError
-
