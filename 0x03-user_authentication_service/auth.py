@@ -24,11 +24,10 @@ class Auth:
         """
         self._db = DB()
 
-    def register_user(self, email, password):
+    def register_user(self, email: str, password: str) -> User:
         """ registers a new user to the db
         """
-        session = self._db._session
-        user = session.query(User).filter_by(email=email).one_or_none()
+        user = self._db._session.query(User).filter_by(email=email).first()
         if user is not None:
             raise ValueError(f"User {email} already exists")
         hashed_pwd = _hash_password(password)
