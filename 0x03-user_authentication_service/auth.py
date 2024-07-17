@@ -7,7 +7,7 @@ from user import User
 import uuid
 
 
-def _hash_password(self, password: str) -> bytes:
+def _hash_password(password: str) -> bytes:
     """ hashes a password into a salted hash bytes
     """
     salt = bcrypt.gensalt()
