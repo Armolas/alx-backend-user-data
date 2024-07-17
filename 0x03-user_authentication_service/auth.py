@@ -7,6 +7,14 @@ from user import User
 import uuid
 
 
+def _hash_password(self, password: str) -> bytes:
+    """ hashes a password into a salted hash bytes
+    """
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password.encode(), salt)
+    return hashed_password
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -23,16 +31,9 @@ class Auth:
         user = session.query(User).filter_by(email=email).one_or_none()
         if user is not None:
             raise ValueError(f"User {email} already exists")
-        hashed_pwd = self._hash_password(password)
+        hashed_pwd = _hash_password(password)
         user = self._db.add_user(email, hashed_pwd)
         return user
-
-    def _hash_password(self, password: str) -> bytes:
-        """ hashes a password into a salted hash bytes
-        """
-        salt = bcrypt.gensalt()
-        hashed_password = bcrypt.hashpw(password.encode(), salt)
-        return hashed_password
 
     def valid_login(self, email, password):
         """ validates user credentials
