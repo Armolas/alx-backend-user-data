@@ -27,6 +27,8 @@ class Auth:
     def register_user(self, email: str, password: str) -> User:
         """ registers a new user to the db
         """
+        if not email or not password:
+            return
         user = self._db._session.query(User).filter_by(email=email).first()
         if user is not None:
             raise ValueError(f"User {email} already exists")
