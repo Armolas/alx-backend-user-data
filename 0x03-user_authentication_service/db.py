@@ -50,14 +50,17 @@ class DB:
         except InvalidRequestError as e:
             raise e
 
-    def update_user(self, user_id: int, **kwargs: dict):
+    def update_user(self, user_id: int, **kwargs) -> None:
         """ Updates a user with the values in the keyword args
         """
-        session = self._session
         try:
-            user = session.query(User).filter(User.id == user_id).first()
+            user = self._session.query(User).filter(User.id == user_id).first()
+            keys = User.__dict__.keys()
             for key, value in kwargs.items():
+                if key not in keys:
+                    raise ValueError
                 setattr(user, key, value)
             session.commit()
+            return None
         except Exception:
             raise ValueError
