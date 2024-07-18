@@ -118,9 +118,9 @@ class Auth:
             new_pwd = _hash_password(password)
             self._db.update_user(
                     user.id,
-                    hashed_password=new_pwd,
-                    reset_token=None
+                    hashed_password=new_pwd
                     )
+            self._db.update_user(user.id, reset_token=None)
             return None
         except Exception:
             raise ValueError
