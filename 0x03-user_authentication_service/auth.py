@@ -112,7 +112,7 @@ class Auth:
         """ Updates a user password
         """
         if not reset_token or not password:
-            return None
+            raise ValueError
         try:
             user = self._db.find_user_by(reset_token=reset_token)
             new_pwd = _hash_password(password)
